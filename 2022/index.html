@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      font-family: 'Lato', sans-serif;
+    }
+
+    .main {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+      margin: 20px 0;
+    }
+
+    .page {
+      width: 100%;
+      border-bottom: 2px solid gray;
+    }
+
+    @media (min-width: 600px) {
+      h1, h2 {
+        margin-left: auto;
+        margin-right: auto;
+        width: 75%;
+      }
+
+      img {
+        width: 75%;
+        margin: 20px auto;
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+
+  <div id="main" class="main">
+
+    <h1>TheGearPage 2022 pedalboard thread</h1>
+
+    <div class="content"></div>
+
+  </div>
+
+  <script>
+    (async () => {
+      const main = document.querySelector('.content');
+      const pageFetch = await fetch('/pageImages.json');
+      const pageImages = await pageFetch.json();
+
+      for (const {page, images} of pageImages) {
+        const pageNode = document.createElement('div');
+
+        pageNode.setAttribute('class', 'page');
+
+        for (const image of images) {
+          const imageNode = document.createElement('img');
+
+          imageNode.src = image;
+          imageNode.loading = 'lazy';
+
+          pageNode.prepend(imageNode);
+        }
+
+        const pageTitle = document.createElement('h2');
+        pageTitle.innerText = `Page ${page}`;
+
+        pageNode.prepend(pageTitle);
+
+        main.prepend(pageNode);
+      }
+    })()
+  </script>
+  
+</body>
+</html>
